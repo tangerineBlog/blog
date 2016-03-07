@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录管理</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        body {
+            background: #222526;
+        }
+        
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        h3,
+        h1,
+        strong {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        .head {
+            height: 60px;
+            width: 100%;
+            background-color: #1F2229;
+            background: url(../images/head_bg.jpg) no-repeat;
+        }
+        
+        .head a {
+            display: block;
+            height: 100%;
+            text-decoration: none;
+            color: #72B890;
+            font: 900 12px/60px '微软雅黑';
+            letter-spacing: 2px;
+            margin-left: 47px;
+        }
+        
+        .title {
+            height: 80px;
+            width: 100%;
+            background: #2F3238;
+        }
+        
+        .title h1 {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            color: white;
+            font: 200 40px/80px '微软雅黑';
+        }
+        
+        .contant {
+            width: 480px;
+            height: 193px;
+            margin: 100px auto;
+        }
+        
+        .contant .pic {
+            width: 190px;
+            height: 100%;
+            background: white;
+            float: left;
+            background: url(../images/login_bg.jpg) no-repeat;
+            background-size: cover;
+            position: relative;
+            border-radius: 5px;
+        }
+        
+        .contant .pic .pic_info {
+            position: absolute;
+            bottom: 12px;
+            display: block;
+            height: 26px;
+            width: 100%;
+            text-align: center;
+            font: 600 10px/26px '';
+            color: white;
+        }
+        
+        .contant .login {
+            width: 280px;
+            height: 100%;
+            background: #555555;
+            float: right;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .contant .login .list_login {
+            width: 264px;
+            height: 161px;
+            padding: 20px 0px 12px 16px;
+        }
+        
+        .contant .login .list_login h1 {
+            width: 100%;
+            height: 24px;
+            color: white;
+            font: 600 12px/24px '';
+            text-indent: 10px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .contant .login .list_login #user,
+        .contant .login .list_login #password {
+            display: block;
+            border-radius: 5px;
+            background: #333333;
+            text-indent: 10px;
+            color: white;
+            border-style: none;
+            margin: 12px 0px;
+            height: 38px;
+            width: 245px;
+            outline-color: #333333;
+            outline-style: none;
+        }
+        
+        .contant .login .list_login .select {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #222222;
+            color: #999999;
+            font: 600 15px/40px '';
+            text-align: center;
+            left: -25px;
+            top: 12px;
+        }
+        
+        .contant .login .list_login #submit {
+            position: absolute;
+            top: 50px;
+            right: -41px;
+            width: 72px;
+            height: 72px;
+            padding: 10px;
+            border-radius: 50%;
+            background: #222526;
+            transition: 0.5s;
+        }
+        
+        .contant .login .list_login #submit input {
+            display: block;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border-style: none;
+            outline-style: none;
+            background: #FF5F32;
+            color: white;
+            font: 20px/72px '';
+            transition: 0.8s;
+        }
+        
+        .contant .login .list_login #submit:hover {
+            transition: 0.8s;
+            background: #FF5F32;
+        }
+        
+        .contant .login .list_login #submit:hover input {
+            transition: 0.5s;
+            background: #222526;
+            color: #FF5F32;
+        }
+        
+        .contant .login .list_login strong {
+            display: block;
+            width: 110px;
+            height: 25px;
+            font: 15px/25px '';
+            text-indent: 2px;
+            color: #88887A;
+            transition: 1s;
+        }
+        
+        .contant .login .list_login strong:hover {
+            color: white;
+            text-indent: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../javascripts/cookie.js"></script>
+    <script>
+        $(function () {
+
+            //通过读取cookies来判断是否登录
+            var setPower = function(){
+
+             if(getCookie('name')){
+
+                 var obj = {
+                     'name':getCookie('name'),
+                     'passwords':getCookie('passwords')
+                 };
+
+                 $.post('action/match',obj,function(data){
+
+                        if(data){
+                            window.location.href = 'http://127.0.0.1:3000/manage';
+                        }else{
+                            alert('nothing..')
+                        }
+
+                 })
+
+             }
+
+            }
+            setPower();
+
+            $('.contant .login .list_login #user').blur(function () {
+                var userVal = $(this).val();
+                var re = /^\w+$/;
+                if (userVal) {
+                    if (!re.test(userVal)) {
+                        alert('用户名只能为数字字母下划线！！！')
+                    }
+                }
+            });
+
+            $('.contant .login .list_login #password').blur(function () {
+                var passwordVal = $(this).val();
+                var ilenght = passwordVal.length;
+
+                if (ilenght) {
+                    if (ilenght < 5) {
+                        alert('密码至少为5位！！');
+                    }
+                }
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <div class="head"><a>博客管理登陆</a></div>
+    <div class="title">
+        <h1>据说只有长得帅的人才能登陆成功</h1></div>
+    <div class="contant">
+        <div class="pic">
+            <span class="pic_info"><a href="https://www.baidu.com">博客管理  始于心..</a></span>
+        </div>
+        <div class="login">
+            <form action="/action" method="post" class="list_login">
+                <h1>
+                   <a href="http://127.0.0.1:3000/contact">没有账号 联系博主?</a>
+                </h1>
+                <input id="user" type="text" placeholder="用户名" required="required" name="name">
+                <input id="password" type="password" placeholder="密码" required="required" name="passwords">
+                <div id="submit">
+                    <input type="submit" value="登陆">
+                </div>
+                <div class="select">or</div>
+                <strong>忘记密码？</strong>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

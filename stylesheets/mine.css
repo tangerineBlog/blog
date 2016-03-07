@@ -1,0 +1,12 @@
+/* line 7, ../sass/mine.scss */
+.box {
+  border-width: 2px;
+  border-style: solid;
+  border-color: red;
+  color: red;
+}
+/* line 10, ../sass/mine.scss */
+.box:hover {
+  background: red;
+  color: white;
+}

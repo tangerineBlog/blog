@@ -1,0 +1,14 @@
+@mixin  border($width,$style,$color){
+  border-width: $width;
+  border-style: $style;
+  border-color: $color;
+}
+
+.box{
+  @include border(2px,solid,red);
+  color: red;
+  &:hover{
+    background: red;
+    color: white;
+  }
+}
